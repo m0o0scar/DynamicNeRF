@@ -377,7 +377,7 @@ def generate_path(c2w, args):
     # Rendering teaser. Add translation.
     for i in range(num_novelviews):
         x_trans = max_trans * np.sin(2.0 * np.pi * float(i) / float(num_novelviews)) * args.x_trans_multiplier
-        y_trans = max_trans * (np.cos(2.0 * np.pi * float(i) / float(num_novelviews)) - 1.) * args.y_trans_multiplier
+        y_trans = 0.
         z_trans = 0.
 
         i_pose = np.concatenate([
