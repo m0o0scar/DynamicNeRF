@@ -256,21 +256,6 @@ def train():
             testsavedir, '{}_{}_{:06d}_'.format(expname, result_type, i))
         save_res(moviebase, ret)
 
-        # Fix view (first view) and change time.
-        pose2render = torch.Tensor(poses[0:1, ...]).expand([int(num_img), 3, 4])
-        time2render = i_train / float(num_img) * 2. - 1.0
-        result_type = 'testset_view000'
-
-        testsavedir = os.path.join(
-            basedir, expname, result_type + '_{:06d}'.format(i))
-        os.makedirs(testsavedir, exist_ok=True)
-        with torch.no_grad():
-            ret = render_path(pose2render, time2render,
-                              hwf, args.chunk, render_kwargs_test, savedir=testsavedir)
-        moviebase = os.path.join(
-            testsavedir, '{}_{}_{:06d}_'.format(expname, result_type, i))
-        save_res(moviebase, ret)
-
         return
 
     N_rand = args.N_rand
