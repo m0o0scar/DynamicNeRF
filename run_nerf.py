@@ -141,7 +141,7 @@ def config_parser():
                         help='y_trans_multiplier')
     parser.add_argument("--z_trans_multiplier", type=float, default=5.,
                         help='z_trans_multiplier')
-    parser.add_argument("--num_novelviews", type=int, default=60,
+    parser.add_argument("--num_novelviews", type=int, default=48,
                         help='num_novelviews')
     parser.add_argument("--focal_decrease", type=float, default=200,
                         help='focal_decrease')
@@ -229,8 +229,8 @@ def train():
         i = start - 1
 
         # Change time and change view at the same time.
-        time2render = np.concatenate((np.repeat((i_train / float(num_img) * 2. - 1.0), 4),
-                                      np.repeat((i_train / float(num_img) * 2. - 1.0)[::-1][1:-1], 4)))
+        time2render = np.concatenate((np.repeat((i_train / float(num_img) * 2. - 1.0), 1),
+                                      np.repeat((i_train / float(num_img) * 2. - 1.0)[::-1][1:-1], 1)))
         if len(time2render) > len(render_poses):
             pose2render = np.tile(render_poses, (int(np.ceil(len(time2render) / len(render_poses))), 1, 1))
             pose2render = pose2render[:len(time2render)]

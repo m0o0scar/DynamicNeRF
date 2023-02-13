@@ -376,7 +376,7 @@ def generate_path(c2w, args):
 
     # Rendering teaser. Add translation.
     for i in range(num_novelviews):
-        x_trans = max_trans * np.sin(2.0 * np.pi * float(i) / float(num_novelviews)) * args.x_trans_multiplier
+        x_trans = max_trans * (float(i) / float(num_novelviews) * 2.0 - 1.0) * args.x_trans_multiplier
         y_trans = 0.
         z_trans = 0.
 
@@ -393,49 +393,5 @@ def generate_path(c2w, args):
         render_pose = np.dot(ref_pose, i_pose)
         output_poses.append(np.concatenate([render_pose[:3, :], hwf], 1))
         output_focals.append(focal)
-
-    # Rendering teaser. Add zooming.
-    if args.frame2dolly != -1:
-        for i in range(num_novelviews // 2 + 1):
-            x_trans = 0.
-            y_trans = 0.
-            # z_trans = max_trans * np.sin(2.0 * np.pi * float(i) / float(num_novelviews)) * args.z_trans_multiplier
-            z_trans = max_trans * args.z_trans_multiplier * i / float(num_novelviews // 2)
-            i_pose = np.concatenate([
-                np.concatenate(
-                    [np.eye(3), np.array([x_trans, y_trans, z_trans])[:, np.newaxis]], axis=1),
-                np.array([0.0, 0.0, 0.0, 1.0])[np.newaxis, :]
-            ],axis=0)
-
-            i_pose = np.linalg.inv(i_pose) #torch.tensor(np.linalg.inv(i_pose)).float()
-
-            ref_pose = np.concatenate([c2w[:3, :4], np.array([0.0, 0.0, 0.0, 1.0])[np.newaxis, :]], axis=0)
-
-            render_pose = np.dot(ref_pose, i_pose)
-            output_poses.append(np.concatenate([render_pose[:3, :], hwf], 1))
-            output_focals.append(focal)
-            print(z_trans / max_trans / args.z_trans_multiplier)
-
-    # Rendering teaser. Add dolly zoom.
-    if args.frame2dolly != -1:
-        for i in range(num_novelviews // 2 + 1):
-            x_trans = 0.
-            y_trans = 0.
-            z_trans = max_trans * args.z_trans_multiplier * i / float(num_novelviews // 2)
-            i_pose = np.concatenate([
-                np.concatenate(
-                    [np.eye(3), np.array([x_trans, y_trans, z_trans])[:, np.newaxis]], axis=1),
-                np.array([0.0, 0.0, 0.0, 1.0])[np.newaxis, :]
-            ],axis=0)
-
-            i_pose = np.linalg.inv(i_pose)
-
-            ref_pose = np.concatenate([c2w[:3, :4], np.array([0.0, 0.0, 0.0, 1.0])[np.newaxis, :]], axis=0)
-
-            render_pose = np.dot(ref_pose, i_pose)
-            output_poses.append(np.concatenate([render_pose[:3, :], hwf], 1))
-            new_focal = focal - args.focal_decrease * z_trans / max_trans / args.z_trans_multiplier
-            output_focals.append(new_focal)
-            print(z_trans / max_trans / args.z_trans_multiplier, new_focal)
 
     return output_poses, output_focals
