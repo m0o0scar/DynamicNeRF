@@ -228,9 +228,13 @@ def train():
         print('RENDER ONLY')
         i = start - 1
 
+        print('[debug] i_train', i_train)
+        print('[debug] num_img', num_img)
+
         # Change time and change view at the same time.
         time2render = np.concatenate((np.repeat((i_train / float(num_img) * 2. - 1.0), 1),
                                       np.repeat((i_train / float(num_img) * 2. - 1.0)[::-1][1:-1], 1)))
+        print('[debug] time2render', len(time2render), time2render.shape, time2render)
         if len(time2render) > len(render_poses):
             pose2render = np.tile(render_poses, (int(np.ceil(len(time2render) / len(render_poses))), 1, 1))
             pose2render = pose2render[:len(time2render)]
@@ -240,6 +244,8 @@ def train():
             time2render = time2render[:len(render_poses)]
             pose2render = torch.Tensor(render_poses)
         result_type = 'novelviewtime'
+
+        print('[debug] pose2render', len(pose2render), pose2render.shape, pose2render)
 
         testsavedir = os.path.join(
             basedir, expname, result_type + '_{:06d}'.format(i))
