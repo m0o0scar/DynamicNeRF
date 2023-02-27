@@ -2,7 +2,7 @@
 
 [![arXiv](https://img.shields.io/badge/arXiv-2108.00946-b31b1b.svg)](https://arxiv.org/abs/2105.06468)
 
-<a target="_blank" href="https://colab.research.google.com/github/https://colab.research.google.com/drive/1ejEz84dDyqTQk5hjB64WI_VGyX5uUGf1">
+<a target="_blank" href="https://colab.research.google.com/drive/1ejEz84dDyqTQk5hjB64WI_VGyX5uUGf1">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
